@@ -3,23 +3,38 @@
 	"name": "Projector Control",
 	"author": "Ben Shaver (bshaver) and Pat Delaney (patdelaney)",
 	"description": "Basic projector control for FPP",
-	"homeURL": "https://github.com/FalconChristmas/FPP-Plugin-Projector-Control",
-	"srcURL": "https://github.com/FalconChristmas/FPP-Plugin-Projector-Control.git",
-	"bugURL": "https://github.com/FalconChristmas/FPP-Plugin-Projector-Control/issues",
+	"homeURL": "https://github.com/deployeddave/FPP-Plugin-Projector-Control",
+	"srcURL": "https://github.com/deployeddave/FPP-Plugin-Projector-Control.git",
+	"bugURL": "https://github.com/deployeddave/FPP-Plugin-Projector-Control/issues",
 	"allowUpdates": 1,
 	"versions": [
 		{
 			"minFPPVersion": "2.0",
 			"maxFPPVersion": "7.99",
 			"branch": "master",
-			"sha": ""
+			"sha": "",
+			"allowUpdates": 1
 		},
 		{
-            "minFPPVersion": "9.0",
-            "maxFPPVersion": "0",
-            "branch": "master",
-            "sha": "",
-            "allowUpdates": 1
-        }
+			"minFPPVersion": "8.0",
+			"maxFPPVersion": "8.99",
+			"branch": "master",
+			"sha": "",
+			"allowUpdates": 1
+		},
+		{
+			"minFPPVersion": "9.0",
+			"maxFPPVersion": "9.99",
+			"branch": "master",
+			"sha": "",
+			"allowUpdates": 1
+		},
+		{
+			"minFPPVersion": "10.0",
+			"maxFPPVersion": "0",
+			"branch": "master",
+			"sha": "",
+			"allowUpdates": 1
+		}
 	]
 }
