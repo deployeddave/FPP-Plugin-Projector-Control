@@ -44,7 +44,7 @@ $DEBUG = false;
 <div id="enabled">ENABLE PLUGIN <?PrintSettingCheckbox("Projector Control", "ENABLED",0, 0, "ON", "OFF", $pluginName);?></div></p>
 <div id="proj">Projector: <? PrintSettingSelect("ProjectorType", "PROJECTOR", 1, 0, $defaultValue="-- Select Projector --", $values = getProjectors(), $pluginName, "projectorChanged"); ?></div></p>
 <div id="serial">Serial Device: <? PrintSettingSelect("Device", "DEVICE", 0, 0, "", $values = get_serialDevices(), $pluginName); ?></div></p>
-<div id="baud" style="display:none">Baud Rate: <? PrintSettingSelect("BaudRate", "BAUD_RATE", 0, 0, "19200", $values = getBaudRates(), $pluginName); ?></div></p>	
+<div id="baud" style="display:none">Baud Rate: <? PrintSettingSelect("BaudRate", "BAUD_RATE", 0, 0, "9600", $values = getBaudRates(), $pluginName); ?></div></p>	
 <div id="char" style="display:none">Char Bits: <? PrintSettingSelect("CharBits", "CHAR_BITS", 0, 0, "8", $values = getCharBits(), $pluginName); ?></div></p>	
 <div id="stop" style="display:none">Stop Bits: <? PrintSettingSelect("StopBits", "STOP_BITS", 0, 0, "1", array("1"=>"1","2"=>"2"), $pluginName); ?></div></p>	
 <div id="parity" style="display:none">Parity: <? PrintSettingSelect("Parity", "PARITY", 0, 0, $defaultValue="none", array("none"=>"none","even"=>"even","odd"=>"odd"), $pluginName); ?></div></p>	
@@ -60,7 +60,7 @@ $DEBUG = false;
 </div>
 <div id="port" style="display:none">Port: <?  PrintSettingTextSaved("PORT", 0,0, 6, 6, $pluginName, "", "validatePort"); ?></div></p>
  
-<p>To report a bug, please file it against the Projector Control plug-in project on Git:<a href="https://github.com/FalconChristmas/FPP-Plugin-Projector-Control/issues"> Projector Control Issues Link</a>
+<p>To report a bug, please file it against the Projector Control plug-in project on Git:<a href="https://github.com/deployeddave/FPP-Plugin-Projector-Control/issues"> Projector Control Issues Link</a>
 
 <script>
 
