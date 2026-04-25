@@ -707,6 +707,27 @@ Array("NAME" => "Optoma_EX525_ST",
     "STOP_BITS" => "1",
     "PARITY"    => "none"
 ),
+Array("NAME" => "Optoma_GT1080HDR",
+    // Short-throw 1080p gaming projector (also covers GT1080HDRx)
+    // Inputs: HDMI1 (HDMI 2.0), HDMI2 (HDMI 1.4a + MHL), VGA (YPbPr/RGB)
+    // Protocol: modern Optoma ~XX — OFF=0, AV mute=~XX02
+    // Baud: 9600, 8N1, no flow control
+    "ON"           => "\x7E\x30\x30\x30\x30\x20\x31\x0D",  // ~0000 1
+    "OFF"          => "\x7E\x30\x30\x30\x30\x20\x30\x0D",  // ~0000 0
+    "AV_MUTE_ON"   => "\x7E\x30\x30\x30\x32\x20\x31\x0D",  // ~0002 1
+    "AV_MUTE_OFF"  => "\x7E\x30\x30\x30\x32\x20\x30\x0D",  // ~0002 0
+    "MUTE_ON"      => "\x7E\x30\x30\x30\x33\x20\x31\x0D",  // ~0003 1
+    "MUTE_OFF"     => "\x7E\x30\x30\x30\x33\x20\x30\x0D",  // ~0003 0
+    "FREEZE"       => "\x7E\x30\x30\x30\x34\x20\x31\x0D",  // ~0004 1
+    "UNFREEZE"     => "\x7E\x30\x30\x30\x34\x20\x30\x0D",  // ~0004 0
+    "HDMI1"        => "\x7E\x30\x30\x31\x32\x20\x31\x0D",  // ~0012 1  (HDMI 2.0)
+    "HDMI2"        => "\x7E\x30\x30\x31\x32\x20\x31\x35\x0D", // ~0012 15 (HDMI 1.4a+MHL)
+    "VGA"          => "\x7E\x30\x30\x31\x32\x20\x35\x0D",  // ~0012 5
+    "BAUD_RATE"    => "9600",
+    "CHAR_BITS"    => "8",
+    "STOP_BITS"    => "1",
+    "PARITY"       => "none"
+),
 
 // ============================================================
 // NEW ENTRY: Optoma EP7xx RS232
