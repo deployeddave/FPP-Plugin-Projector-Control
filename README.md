@@ -113,41 +113,67 @@ cd /home/fpp/media/plugins
 git clone https://github.com/deployeddave/FPP-Plugin-Projector-Control.git FPP-Plugin-Projector-Control
 cd FPP-Plugin-Projector-Control
 bash fpp_install.sh
-Restart FPP
 ```
+Restart FPP
+
 ### Update an Existing Install (If Already Installed from Original Repo)
 If you previously installed the original FalconChristmas version:
+```bash
 bashcd /home/fpp/media/plugins/FPP-Plugin-Projector-Control
-# Check which remote it's currently pointing at
+
+#Check which remote it's currently pointing at
+
 git remote -v
-# If it's pointing at FalconChristmas, change it to your fork
+
+#If it's pointing at FalconChristmas, change it to your fork
+
 git remote set-url origin https://github.com/deployeddave/FPP-Plugin-Projector-Control.git
-# Pull your changes
+
+#Pull your changes
+
 git pull origin master
+```
 Then restart FPPD.
+
 ---
 
 ### Post-Install Checklist
 Once installed, run through these quickly:
 
+
  Plugin appears in the Plugin Manager as installed
+ 
  Plugin setup page loads at Content Setup → Projector Control (or similar)
+ 
  Help button works and opens help/plugin_setup.php
+ 
  F1 key on the setup page opens help
+ 
  Configure your projector type, connection type (serial or TCP), and port
+ 
  Save settings — confirm .sh scripts generate in /home/fpp/media/scripts/ (look for PROJECTOR-*.sh files)
+ 
  Test Power ON command — confirm projector responds
+ 
  Test Power OFF command — confirm projector responds (this was the \x32 bug fix — worth validating it actually works now)
+ 
 
 ### Quick Verification Commands (SSH)
-bash# Confirm plugin files are present
+bash# 
+Confirm plugin files are present
+```bash
 ls /home/fpp/media/plugins/FPP-Plugin-Projector-Control/
+```
 
-# Confirm scripts generated after saving settings
+### Confirm scripts generated after saving settings
+
 ls -la /home/fpp/media/scripts/PROJECTOR*
 
-# Check FPP logs if something isn't working
+
+### Check FPP logs if something isn't working
+```bash
 tail -f /var/log/fppd.log
+```
 
 
 ## Hardware Requirements
