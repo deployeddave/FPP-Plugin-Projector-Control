@@ -29,40 +29,65 @@ $PROJECTOR_READ = $PROJECTOR;
 if (isset($_GET['action']) && $_GET['action'] == 'create_scripts') {
    create_scripts();
 }
-function sendTCP($IP, $PORT, $cmd) {
-	if($PORT == "23") {
-		logEntry("We have a TELNET port");
-		$fp=pfsockopen($IP,23);
-		logEntry("Telnet session opening ...");
-		sleep(4);
-		$cmd .= "\r";
-		fputs($fp,$cmd);
-		sleep(2); 
-		fclose($fp);
-		return;
-	}
-	/* Create a TCP/IP socket. */
-	$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-	if ($socket === false) {
-    	logEntry("socket_create() failed: reason: " . socket_strerror(socket_last_error()));
-	} else {
-   		logEntry("TCPIP Socket Created");
-	}
-	$result = socket_connect($socket, $IP, $PORT);
-	if ($result === false) {
-		logEntry("socket_connect() failed. Reason: ($result) " . socket_strerror(socket_last_error($socket)));
-	} else {
-		logEntry("TCPIP CONNECTED");
-	}
-	socket_write($socket, $cmd, strlen($cmd));
-	logEntry("Reading response");
-	while ($out = socket_read($socket, 2048)) {
-    	logEntry($out);
-	}
-	logEntry("Closing socket...");
-	socket_close($socket);
-	logEntry("OK");
+/*
+ * sendTCP() - replacement with socket read timeout
+ *
+ * DROP-IN REPLACEMENT for functions.inc.php
+ *
+ * The original sendTCP() used socket_read() with no timeout set after
+ * connect. If the projector accepted the TCP connection but never sent a
+ * response byte, the PHP process hung indefinitely, blocking FPP from
+ * running the next playlist item.
+ *
+ * This version sets a 3-second read timeout via socket_set_option() after
+ * connect, so the worst-case hang is 3 seconds rather than infinite.
+ * The timeout value is deliberately conservative — projectors that respond
+ * quickly still get logged normally; those that don't respond at all get
+ * a "no response / timeout" log entry and the script exits cleanly.
+ *
+ * Replace the existing sendTCP() function in functions.inc.php with this.
+ */
+
+function sendTCP($ip, $port, $cmd) {
+    global $logFile;
+
+    $TCP_READ_TIMEOUT_SEC = 3; // seconds to wait for projector response
+
+    $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+    if ($socket === false) {
+        logEntry("sendTCP: socket_create failed: " . socket_strerror(socket_last_error()));
+        return;
+    }
+
+    $connected = @socket_connect($socket, $ip, $port);
+    if ($connected === false) {
+        logEntry("sendTCP: socket_connect failed to $ip:$port — "
+               . socket_strerror(socket_last_error($socket)));
+        socket_close($socket);
+        return;
+    }
+
+    logEntry("sendTCP: connected to $ip:$port");
+
+    // Send command
+    $bytesSent = socket_write($socket, $cmd, strlen($cmd));
+    logEntry("sendTCP: sent $bytesSent bytes");
+
+    // Set read timeout so we don't hang if projector never responds
+    socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO,
+        ['sec' => $TCP_READ_TIMEOUT_SEC, 'usec' => 0]);
+
+    // Read response
+    $response = socket_read($socket, 1024);
+    if ($response === false || $response === '') {
+        logEntry("sendTCP: no response from projector (timeout after {$TCP_READ_TIMEOUT_SEC}s)");
+    } else {
+        logEntry("sendTCP: response received: " . hex_dump($response, "\n"));
+    }
+
+    socket_close($socket);
 }
+
 
 function get_serialDevices() {
 	$SERIAL_DEVICES=array();
