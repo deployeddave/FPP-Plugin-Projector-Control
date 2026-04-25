@@ -102,9 +102,10 @@ This is the **deployeddave** fork of the original [FalconChristmas/FPP-Plugin-Pr
 
 ### Via FPP Plugin Manager (recommended)
 1. Go to **Content Setup → Plugin Manager** in the FPP web UI
-2. Find "Projector Control" and click **Install**
-3. Wait for `Net::PJLink` to install via CPAN (2–5 minutes on first install)
-4. Reboot when prompted
+2. Look for a field at the bottom of the Plugin Manager page that says something like "Install Plugin from URL" or "Add Plugin from URL."
+3. Paste https://raw.githubusercontent.com/deployeddave/FPP-Plugin-Projector-Control/master/pluginInfo.json URL there and click Install (or Add/Download).
+4. Restart FPP when prompted (or manually after install completes)
+5. After restart,  Go to **Content Setup → Plugin Manager** and confirm Projector Control is installed
 
 ### Manual install (this fork)
 ```bash
@@ -112,9 +113,42 @@ cd /home/fpp/media/plugins
 git clone https://github.com/deployeddave/FPP-Plugin-Projector-Control.git FPP-Plugin-Projector-Control
 cd FPP-Plugin-Projector-Control
 bash fpp_install.sh
+Restart FPP
 ```
-
+### Update an Existing Install (If Already Installed from Original Repo)
+If you previously installed the original FalconChristmas version:
+bashcd /home/fpp/media/plugins/FPP-Plugin-Projector-Control
+# Check which remote it's currently pointing at
+git remote -v
+# If it's pointing at FalconChristmas, change it to your fork
+git remote set-url origin https://github.com/deployeddave/FPP-Plugin-Projector-Control.git
+# Pull your changes
+git pull origin master
+Then restart FPPD.
 ---
+
+### Post-Install Checklist
+Once installed, run through these quickly:
+
+ Plugin appears in the Plugin Manager as installed
+ Plugin setup page loads at Content Setup → Projector Control (or similar)
+ Help button works and opens help/plugin_setup.php
+ F1 key on the setup page opens help
+ Configure your projector type, connection type (serial or TCP), and port
+ Save settings — confirm .sh scripts generate in /home/fpp/media/scripts/ (look for PROJECTOR-*.sh files)
+ Test Power ON command — confirm projector responds
+ Test Power OFF command — confirm projector responds (this was the \x32 bug fix — worth validating it actually works now)
+
+### Quick Verification Commands (SSH)
+bash# Confirm plugin files are present
+ls /home/fpp/media/plugins/FPP-Plugin-Projector-Control/
+
+# Confirm scripts generated after saving settings
+ls -la /home/fpp/media/scripts/PROJECTOR*
+
+# Check FPP logs if something isn't working
+tail -f /var/log/fppd.log
+
 
 ## Hardware Requirements
 
